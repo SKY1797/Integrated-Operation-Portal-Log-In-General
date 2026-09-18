@@ -35,6 +35,7 @@ const iconTurbine = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
 const iconFGD = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>`;
 const iconGear = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>`;
 const iconCalendar = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+const iconLogout = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.5 12L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 9L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 15L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 17C17 19.2091 15.2091 20 13 20H10C7.79086 20 6 18.2091 6 16V8C6 5.79086 7.79086 4 10 4H13C15.2091 4 17 4.79086 17 7" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('popstate', handlePopState);
@@ -152,7 +153,7 @@ function updateHeader() {
         const backBtnHTML = `<button class="nav-pill-btn" onclick="${backAction}">${iconBack} <span class="nav-text">Back</span></button>`;
         const homeBtnHTML = `<button class="nav-pill-btn" onclick="${homeAction}">${iconHome} <span class="nav-text">Home</span></button>`;
 
-        const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()" style="border-color: #ef4444; color: #ef4444; margin-left: auto;">Log Out</button>`;
+        const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
 
         navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
         // navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${homeBtnHTML}`;
