@@ -120,7 +120,7 @@ function updateHeader() {
         // Optional: Add a standalone logout button on the HOME screen header if desired
         if (appState.module === 'HOME') {
             navContainer.style.display = 'flex';
-            navContainer.innerHTML = `<button class="nav-pill-btn" onclick="logoutUser()" style="border-color: #ef4444; color: #ef4444;">Log Out</button>`;
+            navContainer.innerHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
         }
     } else {
         navContainer.style.display = 'flex';
@@ -152,7 +152,6 @@ function updateHeader() {
 
         const backBtnHTML = `<button class="nav-pill-btn" onclick="${backAction}">${iconBack} <span class="nav-text">Back</span></button>`;
         const homeBtnHTML = `<button class="nav-pill-btn" onclick="${homeAction}">${iconHome} <span class="nav-text">Home</span></button>`;
-
         const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
 
         navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
