@@ -38,6 +38,17 @@ const iconCalendar = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('popstate', handlePopState);
+    
+    // Check for an existing saved login session
+    const savedUser = localStorage.getItem('opsPortalUser');
+    if (savedUser && empData[savedUser]) {
+        appState.isAuthenticated = true;
+        appState.module = 'HOME';
+    } else {
+        appState.isAuthenticated = false;
+        appState.module = 'LOGIN';
+    }
+    
     initDocsData(); // Background fetch on launch
     renderApp();
 });
@@ -104,6 +115,12 @@ function updateHeader() {
     if (appState.module === 'HOME' || appState.module === 'LOGIN') {
         navContainer.style.display = 'none';
         navContainer.innerHTML = '';
+        
+        // Optional: Add a standalone logout button on the HOME screen header if desired
+        if (appState.module === 'HOME') {
+            navContainer.style.display = 'flex';
+            navContainer.innerHTML = `<button class="nav-pill-btn" onclick="logoutUser()" style="border-color: #ef4444; color: #ef4444;">Log Out</button>`;
+        }
     } else {
         navContainer.style.display = 'flex';
 
@@ -135,7 +152,9 @@ function updateHeader() {
         const backBtnHTML = `<button class="nav-pill-btn" onclick="${backAction}">${iconBack} <span class="nav-text">Back</span></button>`;
         const homeBtnHTML = `<button class="nav-pill-btn" onclick="${homeAction}">${iconHome} <span class="nav-text">Home</span></button>`;
 
-        navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}`;
+        const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()" style="border-color: #ef4444; color: #ef4444; margin-left: auto;">Log Out</button>`;
+
+        navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
         // navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${homeBtnHTML}`;
     }
 }
@@ -270,6 +289,9 @@ window.verifyPassword = function() {
     const msg = document.getElementById('loginMsg');
 
     if (empData[tempEmpId] && empData[tempEmpId].password === pwdInput) {
+        // Save the authenticated user to browser storage
+        localStorage.setItem('opsPortalUser', tempEmpId);
+        
         // Authenticate and push to HOME
         updateState({ module: 'HOME', isAuthenticated: true }, false);
     } else {
@@ -285,6 +307,19 @@ window.resetLogin = function() {
     document.getElementById('empIdInput').value = '';
     document.getElementById('empPwdInput').value = '';
     document.getElementById('loginMsg').innerText = 'Enter Employee ID to proceed';
+};
+
+window.logoutUser = function() {
+    localStorage.removeItem('opsPortalUser');
+    tempEmpId = "";
+    updateState({ 
+        module: 'LOGIN', 
+        isAuthenticated: false, 
+        docsPath: [], 
+        protectionArea: null, 
+        protectionEquip: null, 
+        electricalUnit: null 
+    }, false);
 };
 
 // ------------------------------ ELECTRICAL ---------------------------------
