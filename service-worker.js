@@ -8,6 +8,7 @@ const urlsToCache = [
     './app.js',
     './data-electrical.js',
     './data-protection.js',
+    './data-employee.js',
 
     // './data-docs.js',
 
