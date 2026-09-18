@@ -1,6 +1,7 @@
 // Application State
 let appState = {
-    module: 'HOME', // HOME, ELECTRICAL, PROTECTION, DOCS
+    module: 'LOGIN', // Start at LOGIN instead of HOME
+    isAuthenticated: false, // New authentication flag
     docsPath: [],
     protectionArea: null,
     protectionEquip: null,
@@ -10,6 +11,7 @@ let appState = {
 // Safe access for static modules
 const elecData = typeof electricalData !== 'undefined' ? electricalData : {};
 const protData = typeof protectionData !== 'undefined' ? protectionData : {};
+const empData = typeof employeeData !== 'undefined' ? employeeData : {}; // Injected Employee Data
 
 // DYNAMIC DOCS DATA
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2wGBqPtlHr02TTVi25C5GBK7QKWwiYX5uyFYO_EkVMxe6zJexKrWNTEVo0eHBkL_p/exec';
@@ -99,7 +101,7 @@ function handlePopState(event) {
 function updateHeader() {
     const navContainer = document.getElementById('header-nav-actions');
 
-    if (appState.module === 'HOME') {
+    if (appState.module === 'HOME' || appState.module === 'LOGIN') {
         navContainer.style.display = 'none';
         navContainer.innerHTML = '';
     } else {
@@ -143,7 +145,14 @@ function renderApp() {
     const container = document.getElementById('app-container');
     window.scrollTo({ top: 0, behavior: 'instant' });
 
+    // Route guard: Force login if not authenticated
+    if (!appState.isAuthenticated && appState.module !== 'LOGIN') {
+        updateState({ module: 'LOGIN' }, false);
+        return;
+    }
+
     switch (appState.module) {
+        case 'LOGIN': container.innerHTML = renderLogin(); break;
         case 'HOME': container.innerHTML = renderHome(); break;
         case 'ELECTRICAL': container.innerHTML = renderElectrical(); setupElecSearch(); break;
         case 'PROTECTION': container.innerHTML = renderProtection(); setupProtSearch(); break;
@@ -204,6 +213,79 @@ function renderHome() {
         </div>
     `;
 }
+
+// ----------------- LOGIN -----------------
+function renderLogin() {
+    return `
+        <div class="ops-grid-bg"></div>
+        <div class="login-wrapper" style="display:flex; justify-content:center; align-items:center; min-height: 75vh; position: relative; z-index: 20;">
+            <div class="ui-card" style="padding: 2.5rem 2rem; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <div class="card-icon-box" style="background: color-mix(in srgb, var(--module-electrical) 15%, var(--card)); color: var(--module-electrical); width: 4rem; height: 4rem; margin-bottom: 1.5rem;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="14" cy="7" r="4"></circle></svg>
+                </div>
+                <h2 class="page-title font-mono" style="margin-bottom: 0.5rem; width: 100%;">Integrated Operation Portal</h2>
+                <p class="page-subtitle" id="loginMsg" style="margin-bottom: 2rem;">Enter Employee ID to proceed</p>
+
+                <div id="login-step-1" style="width: 100%;">
+                    <input type="text" id="empIdInput" class="ui-input font-mono" placeholder="Employee ID" style="margin-bottom: 1rem; text-align: center; width: 100%; text-transform: uppercase;" autocomplete="off" onkeypress="if(event.key === 'Enter') verifyEmpId()">
+                    <button class="nav-pill-btn" style="width: 100%; justify-content: center; padding: 0.75rem;" onclick="verifyEmpId()">Next</button>
+                </div>
+
+                <div id="login-step-2" style="width: 100%; display: none;">
+                    <input type="password" id="empPwdInput" class="ui-input" placeholder="Password" style="margin-bottom: 1rem; text-align: center; width: 100%;" onkeypress="if(event.key === 'Enter') verifyPassword()">
+                    <button class="nav-pill-btn" style="width: 100%; justify-content: center; padding: 0.75rem;" onclick="verifyPassword()">Log In</button>
+                    <button class="nav-pill-btn" style="width: 100%; justify-content: center; padding: 0.75rem; margin-top: 0.75rem; background: transparent; border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);" onclick="resetLogin()">Back</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Global variable to hold ID between steps
+let tempEmpId = "";
+
+window.verifyEmpId = function() {
+    const idInput = document.getElementById('empIdInput').value.trim().toUpperCase();
+    const msg = document.getElementById('loginMsg');
+
+    if (!idInput) {
+        msg.innerHTML = '<span style="color: #ef4444;">Please enter an Employee ID</span>';
+        return;
+    }
+
+    if (empData[idInput]) {
+        tempEmpId = idInput;
+        document.getElementById('login-step-1').style.display = 'none';
+        document.getElementById('login-step-2').style.display = 'block';
+        msg.innerHTML = `Welcome, <strong>${empData[idInput].name}</strong><br><span style="font-size: 0.9em; opacity: 0.8;">Enter your password</span>`;
+        setTimeout(() => document.getElementById('empPwdInput').focus(), 50);
+    } else {
+        msg.innerHTML = '<span style="color: #ef4444;">Contact admin for access</span>';
+        document.getElementById('empIdInput').value = '';
+    }
+};
+
+window.verifyPassword = function() {
+    const pwdInput = document.getElementById('empPwdInput').value;
+    const msg = document.getElementById('loginMsg');
+
+    if (empData[tempEmpId] && empData[tempEmpId].password === pwdInput) {
+        // Authenticate and push to HOME
+        updateState({ module: 'HOME', isAuthenticated: true }, false);
+    } else {
+        msg.innerHTML = '<span style="color: #ef4444;">Incorrect password</span>';
+        document.getElementById('empPwdInput').value = '';
+    }
+};
+
+window.resetLogin = function() {
+    tempEmpId = "";
+    document.getElementById('login-step-1').style.display = 'block';
+    document.getElementById('login-step-2').style.display = 'none';
+    document.getElementById('empIdInput').value = '';
+    document.getElementById('empPwdInput').value = '';
+    document.getElementById('loginMsg').innerText = 'Enter Employee ID to proceed';
+};
 
 // ------------------------------ ELECTRICAL ---------------------------------
 function renderElectrical() {
