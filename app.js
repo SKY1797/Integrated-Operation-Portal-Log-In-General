@@ -154,7 +154,8 @@ function updateHeader() {
         const homeBtnHTML = `<button class="nav-pill-btn" onclick="${homeAction}">${iconHome} <span class="nav-text">Home</span></button>`;
         const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
 
-        navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
+        navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}`;
+        // navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
         // navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${homeBtnHTML}`;
     }
 }
