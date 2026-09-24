@@ -35,7 +35,8 @@ const iconTurbine = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
 const iconFGD = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>`;
 const iconGear = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>`;
 const iconCalendar = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
-const iconLogout = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.5 12L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 9L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 15L17 12" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 17C17 19.2091 15.2091 20 13 20H10C7.79086 20 6 18.2091 6 16V8C6 5.79086 7.79086 4 10 4H13C15.2091 4 17 4.79086 17 7" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const iconLogout = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 12L17 12"/><path d="M14.5 9L17 12"/><path d="M14.5 15L17 12"/><path d="M17 17C17 19.2091 15.2091 20 13 20H10C7.79086 20 6 18.2091 6 16V8C6 5.79086 7.79086 4 10 4H13C15.2091 4 17 4.79086 17 7"/></svg>`;
+const iconLogin = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>`;
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('popstate', handlePopState);
@@ -120,7 +121,7 @@ function updateHeader() {
         // Optional: Add a standalone logout button on the HOME screen header if desired
         if (appState.module === 'HOME') {
             navContainer.style.display = 'flex';
-            navContainer.innerHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
+            navContainer.innerHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">Log Out</span></button>`;
         }
     } else {
         navContainer.style.display = 'flex';
@@ -152,7 +153,7 @@ function updateHeader() {
 
         const backBtnHTML = `<button class="nav-pill-btn" onclick="${backAction}">${iconBack} <span class="nav-text">Back</span></button>`;
         const homeBtnHTML = `<button class="nav-pill-btn" onclick="${homeAction}">${iconHome} <span class="nav-text">Home</span></button>`;
-        const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">LogOut</span></button>`;
+        const logoutBtnHTML = `<button class="nav-pill-btn" onclick="logoutUser()">${iconLogout} <span class="nav-text">Log Out</span></button>`;
 
         navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}`;
         // navContainer.innerHTML = `${backBtnHTML}${moduleBtnHTML}${logoutBtnHTML}`;
@@ -228,7 +229,7 @@ function renderHome() {
                         <span class="card-subtitle" style="margin-top:0.1rem;">Operation Group Shift Rota</span>
                     </div>
                 </div>
-                <div class="card-desc" style="margin-top:0;">View the 8-day rolling shift schedule for Operation group A , B , C , and D</div>
+                <div class="card-desc" style="margin-top:0;">View the 8-day rolling shift schedule for Operation group A , B , C and D</div>
             </button>
         </div>
     `;
@@ -241,8 +242,7 @@ function renderLogin() {
         <div class="login-wrapper" style="display:flex; justify-content:center; align-items:center; min-height: 75vh; position: relative; z-index: 20;">
             <div class="ui-card" style="padding: 2.5rem 2rem; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <div class="card-icon-box" style="background: color-mix(in srgb, var(--module-electrical) 15%, var(--card)); color: var(--module-electrical); width: 4rem; height: 4rem; margin-bottom: 1.5rem;">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="14" cy="7" r="4"></circle></svg>
-                </div>
+                                 ${iconLogin}   </div>
                 <h2 class="page-title font-mono" style="margin-bottom: 0.5rem; width: 100%;">Integrated Operation Portal</h2>
                 <p class="page-subtitle" id="loginMsg" style="margin-bottom: 2rem;">Enter Employee ID to proceed</p>
 
