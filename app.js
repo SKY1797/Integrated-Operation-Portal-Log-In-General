@@ -242,7 +242,7 @@ function renderLogin() {
         <div class="login-wrapper" style="display:flex; justify-content:center; align-items:center; min-height: 75vh; position: relative; z-index: 20;">
             <div class="ui-card" style="padding: 2.5rem 2rem; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <div class="card-icon-box" style="background: color-mix(in srgb, var(--module-electrical) 15%, var(--card)); color: var(--module-electrical); width: 4rem; height: 4rem; margin-bottom: 1.5rem;">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>      
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="14" cy="7" r="4"></circle></svg>   
                 </div>
                 <h2 class="page-title font-mono" style="margin-bottom: 0.5rem; width: 100%;">Integrated Operation Portal</h2>
                 <p class="page-subtitle" id="loginMsg" style="margin-bottom: 2rem;">Enter Employee ID to proceed</p>
