@@ -11,7 +11,7 @@ let appState = {
 // Safe access for static modules
 const elecData = typeof electricalData !== 'undefined' ? electricalData : {};
 const protData = typeof protectionData !== 'undefined' ? protectionData : {};
-const empData = typeof employeeData !== 'undefined' ? employeeData : {}; // Injected Employee Data
+const empData = typeof employeeData !== 'undefined' ? employeeData : {};
 
 // DYNAMIC DOCS DATA
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2wGBqPtlHr02TTVi25C5GBK7QKWwiYX5uyFYO_EkVMxe6zJexKrWNTEVo0eHBkL_p/exec';
@@ -36,11 +36,10 @@ const iconFGD = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
 const iconGear = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>`;
 const iconCalendar = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
 const iconLogout = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 12L17 12"/><path d="M14.5 9L17 12"/><path d="M14.5 15L17 12"/><path d="M17 17C17 19.2091 15.2091 20 13 20H10C7.79086 20 6 18.2091 6 16V8C6 5.79086 7.79086 4 10 4H13C15.2091 4 17 4.79086 17 7"/></svg>`;
-const iconLogin = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>`;
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('popstate', handlePopState);
-    
+
     // Check for an existing saved login session
     const savedUser = localStorage.getItem('opsPortalUser');
     if (savedUser && empData[savedUser]) {
@@ -50,12 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
         appState.isAuthenticated = false;
         appState.module = 'LOGIN';
     }
-    
+
     initDocsData(); // Background fetch on launch
     renderApp();
 });
 
-// --- Dynamic Data Initialization ---
+// --------------------------------- Dynamic Data Initialization ---------------------------------
 async function initDocsData() {
     // 1. Check Cache for instant load
     const cachedData = localStorage.getItem('opsPortalDocsData');
@@ -93,7 +92,7 @@ async function initDocsData() {
     }
 }
 
-// --- State & Routing ---
+// --------------------------------- State & Routing ---------------------------------
 function updateState(newState, pushHistory = true) {
     appState = { ...appState, ...newState };
     if (pushHistory) {
@@ -117,7 +116,7 @@ function updateHeader() {
     if (appState.module === 'HOME' || appState.module === 'LOGIN') {
         navContainer.style.display = 'none';
         navContainer.innerHTML = '';
-        
+
         // Optional: Add a standalone logout button on the HOME screen header if desired
         if (appState.module === 'HOME') {
             navContainer.style.display = 'flex';
@@ -182,7 +181,7 @@ function renderApp() {
     }
 }
 
-// ----------------- HOME -----------------
+// --------------------------------- HOME ---------------------------------
 function renderHome() {
     return `
         <div class="ops-grid-bg"></div>
@@ -235,14 +234,14 @@ function renderHome() {
     `;
 }
 
-// ----------------- LOGIN -----------------
+// --------------------------------- LOGIN ---------------------------------
 function renderLogin() {
     return `
         <div class="ops-grid-bg"></div>
         <div class="login-wrapper" style="display:flex; justify-content:center; align-items:center; min-height: 75vh; position: relative; z-index: 20;">
             <div class="ui-card" style="padding: 2.5rem 2rem; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <div class="card-icon-box" style="background: color-mix(in srgb, var(--module-electrical) 15%, var(--card)); color: var(--module-electrical); width: 4rem; height: 4rem; margin-bottom: 1.5rem;">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="14" cy="7" r="4"></circle></svg>   
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>   
                 </div>
                 <h2 class="page-title font-mono" style="margin-bottom: 0.5rem; width: 100%;">Integrated Operation Portal</h2>
                 <p class="page-subtitle" id="loginMsg" style="margin-bottom: 2rem;">Enter Employee ID to proceed</p>
@@ -265,7 +264,7 @@ function renderLogin() {
 // Global variable to hold ID between steps
 let tempEmpId = "";
 
-window.verifyEmpId = function() {
+window.verifyEmpId = function () {
     const idInput = document.getElementById('empIdInput').value.trim().toUpperCase();
     const msg = document.getElementById('loginMsg');
 
@@ -286,14 +285,14 @@ window.verifyEmpId = function() {
     }
 };
 
-window.verifyPassword = function() {
+window.verifyPassword = function () {
     const pwdInput = document.getElementById('empPwdInput').value;
     const msg = document.getElementById('loginMsg');
 
     if (empData[tempEmpId] && empData[tempEmpId].password === pwdInput) {
         // Save the authenticated user to browser storage
         localStorage.setItem('opsPortalUser', tempEmpId);
-        
+
         // Authenticate and push to HOME
         updateState({ module: 'HOME', isAuthenticated: true }, false);
     } else {
@@ -302,7 +301,7 @@ window.verifyPassword = function() {
     }
 };
 
-window.resetLogin = function() {
+window.resetLogin = function () {
     tempEmpId = "";
     document.getElementById('login-step-1').style.display = 'block';
     document.getElementById('login-step-2').style.display = 'none';
@@ -311,16 +310,16 @@ window.resetLogin = function() {
     document.getElementById('loginMsg').innerText = 'Enter Employee ID to proceed';
 };
 
-window.logoutUser = function() {
+window.logoutUser = function () {
     localStorage.removeItem('opsPortalUser');
     tempEmpId = "";
-    updateState({ 
-        module: 'LOGIN', 
-        isAuthenticated: false, 
-        docsPath: [], 
-        protectionArea: null, 
-        protectionEquip: null, 
-        electricalUnit: null 
+    updateState({
+        module: 'LOGIN',
+        isAuthenticated: false,
+        docsPath: [],
+        protectionArea: null,
+        protectionEquip: null,
+        electricalUnit: null
     }, false);
 };
 
